@@ -1,0 +1,16 @@
+{
+  "name": "cvresearch",
+  "version": "1.0.0",
+  "description": "Image Scraping implementation for Computer Vision Research Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Kramer @CVGroup",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "fs-extra": "^8.0.1"
+  }
+}
