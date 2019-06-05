@@ -11,19 +11,19 @@ async function main(){
     const NUM_TESTS = 20;
     const softCodeUrl = "http://www.cvlibs.net/datasets/kitti/"; //to make it easier to change referenced website
 
-    // //process.chdir('./nextDir'); vs dir = "fullpath"; every time you want to change directory
-    // const exID = "8f615398fb78fef43a0964df6f361b7589ae9b4b"; //get initial images
-    // for (let testNum = 0; testNum < NUM_TESTS; testNum++) {
-    //     let dir = `./images`;
-    //     if (!fs.existsSync(dir))
-    //         fs.mkdirpSync(dir);
-    //     const testStr = `000000${testNum}`;
-    //     const testName = testStr.substring(testStr.length - 6); //make sure # part of url is of exactly length 6
-    //     const imgURL = `${softCodeUrl}results/${exID}/image_0/${testName}_10.png`;
-    //     //^ example of a submission
-    //     const res = await axios.get(imgURL, {responseType: 'stream'}); //download image data to res
-    //     res.data.pipe(fs.createWriteStream(dir + `/img${testNum}.png`)); //save in local machine
-    // }
+    //process.chdir('./nextDir'); vs dir = "fullpath"; every time you want to change directory
+    const exID = "8f615398fb78fef43a0964df6f361b7589ae9b4b"; //get initial images
+    for (let testNum = 0; testNum < NUM_TESTS; testNum++) {
+        let dir = `./images`;
+        if (!fs.existsSync(dir))
+            fs.mkdirpSync(dir);
+        const testStr = `000000${testNum}`;
+        const testName = testStr.substring(testStr.length - 6); //make sure # part of url is of exactly length 6
+        const imgURL = `${softCodeUrl}results/${exID}/image_0/${testName}_10.png`;
+        //^ example of a submission
+        const res = await axios.get(imgURL, {responseType: 'stream'}); //download image data to res
+        res.data.pipe(fs.createWriteStream(dir + `/img${testNum}.png`)); //save in local machine
+    }
 
     
     const startURL = softCodeUrl + "eval_scene_flow.php?benchmark=stereo";
@@ -87,16 +87,16 @@ async function main(){
                 }
                 //console.log("appended to file for method");
                 //Image download code
-                // for (let i = 0; i < imgTypes.length; i++) {
-                //     for (let testNum = 0; testNum < NUM_TESTS; testNum++) {
-                //         const testStr = `000000${testNum}`;
-                //         const testName = testStr.substring(testStr.length - 6); //make sure # part of url is of exactly length 6
-                //         const imgURL = `${softCodeUrl}results/${submissionID}/${imgTypes[i]}_0/${testName}_10.png`;
-                //         //^ example of a submission
-                //         const res = await axios.get(imgURL, {responseType: 'stream'}); //download image data to res
-                //         res.data.pipe(fs.createWriteStream(dir + `/${testNum}_${imgTypes[i]}.png`)); //save in local machine
-                //     }
-                // }
+                for (let i = 0; i < imgTypes.length; i++) {
+                    for (let testNum = 0; testNum < NUM_TESTS; testNum++) {
+                        const testStr = `000000${testNum}`;
+                        const testName = testStr.substring(testStr.length - 6); //make sure # part of url is of exactly length 6
+                        const imgURL = `${softCodeUrl}results/${submissionID}/${imgTypes[i]}_0/${testName}_10.png`;
+                        //^ example of a submission
+                        const res = await axios.get(imgURL, {responseType: 'stream'}); //download image data to res
+                        res.data.pipe(fs.createWriteStream(dir + `/${testNum}_${imgTypes[i]}.png`)); //save in local machine
+                    }
+                }
             }
         }
     }
