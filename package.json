@@ -4,10 +4,10 @@
   "description": "Image Scraping implementation for Computer Vision Research Project",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node scrape17.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Daniel Kramer @CVGroup",
+  "author": "Daniel Kramer, Vincent Lee @CVGroup",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",

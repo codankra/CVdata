@@ -2,6 +2,34 @@ const axios = require('axios');
 const fs = require('fs-extra');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const algorithmNames = require("./AlgorithmNames.json");
+
+// returns list of tuple [methodName,methodUrl]
+const findAlgorithms = (table) => {
+    let ret = []
+    for (let i = 0; i < table.rows.length; ++i){
+        let row = table.rows[i];
+        let methodName, methodUrl;
+        try{
+            methodName = row.cells[1].getElementsByTagName("a")[0].textContent;
+            methodUrl = row.cells[1].getElementsByTagName("a")[0].href;
+        }
+        catch(e){
+            // Row does not have a link 
+            continue;
+        }
+        if (algorithmNames.includes(methodName)){
+            ret.push([methodName,methodUrl]);
+            if (ret.length == algorithmNames.length){
+                break;
+            }
+        }
+    }
+    if (ret.length!=algorithmNames.length){
+        throw 'Error: Found incorrect number of algorithms'
+    }
+    return ret;
+}
 
 async function main(){
     const imgTypes = [/* "image_0", */"disp_ipol", "errors_img"];
@@ -12,23 +40,24 @@ async function main(){
     // To add to base for images of a specific submission: ${submissionID}/${imgType}_0/${testName}_10.png ; testName: 00...#
 
     const fullpage = await axios.get(startURL, {}); //get resources to parse table of submissions
+  
     const { document } = (new JSDOM(String(fullpage.data))).window;
-    // const titleP = document.getElementsByClassName("title");
-    // console.log(titleP.length);
-    // console.log(titleP[2].textContent);
+   
     const table = document.querySelector("table");
     for(let i = 0; i < table.tBodies.length; i++) {
         const tbody =  table.tBodies[i];
-        //go here to only select algos 1 to 17
+
         //formula: 2r - 1 where r is rank
-        const algorithmRows = [7, 9, 19, 21, 39, 51, 61, 63, 85, 99, 105, 115, 127, 151, 135, 157, 295];
-        for (let j = 0; j < algorithmRows.length; j++) {
-            const row = tbody.rows[algorithmRows[j]];
-            const methodName = row.cells[1].getElementsByTagName("a")[0].textContent;
-            const thref = row.cells[1].getElementsByTagName("a")[0].href;
+        //Choose algorithms according to method name
+        let algorithmNames = findAlgorithms(tbody);
+        for (let j = 0; j < algorithmNames.length; j++) {
+            const methodName = algorithmNames[j][0];
+            console.log(methodName);
+            
+            const thref = algorithmNames[j][1];
             const sPart = thref.lastIndexOf('=');
             const submissionID = thref.substring(sPart + 1);
-            
+
             //this is where the magic happens
             let dir = `./images_2012/${methodName}`;
             if (!fs.existsSync(dir))
