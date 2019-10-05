@@ -25,6 +25,8 @@ const findAlgorithms = (table) => {
             }
         }
     }
+    console.log(ret);
+    console.log(ret.length);
     if (ret.length!=algorithmNames.length){
         throw 'Error: Found incorrect number of algorithms'
     }
@@ -32,11 +34,12 @@ const findAlgorithms = (table) => {
 }
 
 async function main(){
-    const imgTypes = [/* "image_0", */"disp_ipol", "errors_img"];
+    const imgTypes = [/* "image_0", */"result_disp_img_0", "errors_disp_img_0"];
     const NUM_TESTS = 20;
     const softCodeUrl = "http://www.cvlibs.net/datasets/kitti/"; //to make it easier to change referenced website
 
-    const startURL = softCodeUrl + "eval_stereo_flow.php?benchmark=stereo";
+    //kitti 2015
+    const startURL = softCodeUrl + "eval_scene_flow.php?benchmark=stereo";
     // To add to base for images of a specific submission: ${submissionID}/${imgType}_0/${testName}_10.png ; testName: 00...#
 
     const fullpage = await axios.get(startURL, {}); //get resources to parse table of submissions
@@ -59,7 +62,7 @@ async function main(){
             const submissionID = thref.substring(sPart + 1);
 
             //this is where the magic happens
-            let dir = `./images_2012/${methodName}`;
+            let dir = `./images_2015/${methodName}`;
             if (!fs.existsSync(dir))
                 fs.mkdirpSync(dir);
             //file creation code for storing table data

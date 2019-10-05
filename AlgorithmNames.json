@@ -2,10 +2,11 @@
     "GANet-deep",
     "M2S_CSPN",
     "AMNet",
-    "GwcNet-gc",
+    "GwcNet-g",
     "HD^3-Stereo",
     "PSMNet",
-    "HSM",
+    "HSM-1.5x",
+    "HSM-1.8x",
     "GC-NET",
     "RecResNet",
     "SGM-Net",
@@ -13,6 +14,5 @@
     "PRSM",
     "SPS-St",
     "Content-CNN",
-    "CBMV",
-    "MEDIAN"
+    "CBMV"
 ]
